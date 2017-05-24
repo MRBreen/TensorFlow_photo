@@ -17,3 +17,13 @@ adder_node = a + b  # + provides a shortcut for tf.add(a, b)
 
 print(sess.run(adder_node, {a: 3, b:4.5}))
 print(sess.run(adder_node, {a: [1,3], b: [2, 4]}))
+
+W = tf.Variable([.3], tf.float32)
+b = tf.Variable([-.3], tf.float32)
+x = tf.placeholder(tf.float32)
+linear_model = W * x + b
+
+init = tf.global_variables_initializer()
+sess.run(init)
+
+print(sess.run(linear_model, {x:[1,2,3,4]}))
