@@ -1,3 +1,5 @@
+# https://www.tensorflow.org/get_started/mnist/beginners
+
 import numpy as np
 import tensorflow as tf
 
