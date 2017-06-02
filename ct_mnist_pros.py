@@ -12,7 +12,7 @@ def weight_variable(shape):
 def bias_variable(shape):
   initial = tf.constant(0.1, shape=shape)
   return tf.Variable(initial)
-  
+
 def conv2d(x, W):
   return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
@@ -98,3 +98,13 @@ print("test accuracy %g"%accuracy.eval(feed_dict={
 #  100          ->
 #   50          ->
 #   20      100 ->
+"""step 100, training accuracy 0.9
+step 200, training accuracy 0.9
+step 300, training accuracy 0.84
+step 400, training accuracy 0.98
+step 500, training accuracy 0.96
+step 600, training accuracy 1
+step 700, training accuracy 0.96
+step 800, training accuracy 0.9
+step 900, training accuracy 1
+test accuracy 0.9643"""
