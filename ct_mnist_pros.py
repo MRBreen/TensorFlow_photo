@@ -39,24 +39,26 @@ cross_entropy = tf.reduce_mean(
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
 
 # First Convolutional Layer
-W_conv1 = weight_variable([5, 5, 1, 32])  # 5x5 patch, 1 input channel, 32 output
-b_conv1 = bias_variable([32])
+out1 = 50
+W_conv1 = weight_variable([5, 5, 1, out1])  # 5x5 patch, 1 input channel, 32 output
+b_conv1 = bias_variable([out1])
 x_image = tf.reshape(x, [-1,28,28,1])
 h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 h_pool1 = max_pool_2x2(h_conv1)
 
 # Second Convolutional Layer
-W_conv2 = weight_variable([5, 5, 32, 64])  # 5x5 patch, 32 input, 64 output
-b_conv2 = bias_variable([64])
+out2 = 100
+W_conv2 = weight_variable([5, 5, out1, out2])  # 5x5 patch, 32 input, 64 output
+b_conv2 = bias_variable([out2])
 
 h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 h_pool2 = max_pool_2x2(h_conv2)
 
 # Densely Connected Layer
-W_fc1 = weight_variable([7 * 7 * 64, 1024]) #size is 7x7 with 64 inputs
+W_fc1 = weight_variable([7 * 7 * out2, 1024]) #size is 7x7 with 64 inputs
 b_fc1 = bias_variable([1024])
 
-h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
+h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*out2])
 h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
 # Dropout
@@ -98,13 +100,30 @@ print("test accuracy %g"%accuracy.eval(feed_dict={
 #  100          ->
 #   50          ->
 #   20      100 ->
-"""step 100, training accuracy 0.9
-step 200, training accuracy 0.9
-step 300, training accuracy 0.84
+"""
+Results for a typical default settings - ie 32 and 64:
+step 0, training accuracy 0.02
+step 100, training accuracy 0.84
+step 200, training accuracy 0.94
+step 300, training accuracy 0.9
 step 400, training accuracy 0.98
 step 500, training accuracy 0.96
 step 600, training accuracy 1
-step 700, training accuracy 0.96
-step 800, training accuracy 0.9
+step 700, training accuracy 0.98
+step 800, training accuracy 0.84
 step 900, training accuracy 1
-test accuracy 0.9643"""
+test accuracy 0.9646"""
+
+"""
+Results for a changing default settings to 30 and 60:
+step 0, training accuracy 0.12
+step 100, training accuracy 0.86
+step 200, training accuracy 0.92
+step 300, training accuracy 0.86
+step 400, training accuracy 0.96
+step 500, training accuracy 0.92
+step 600, training accuracy 1
+step 700, training accuracy 0.94
+step 800, training accuracy 0.88
+step 900, training accuracy 1
+test accuracy 0.9576 """
