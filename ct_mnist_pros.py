@@ -1,4 +1,4 @@
-# https://www.tensorflow.org/get_started/mnist/beginners
+# https://www.tensorflow.org/get_started/mnist/pros
 
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
@@ -39,21 +39,21 @@ cross_entropy = tf.reduce_mean(
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
 
 # First Convolutional Layer
-W_conv1 = weight_variable([5, 5, 1, 32])
+W_conv1 = weight_variable([5, 5, 1, 32])  # 5x5 patch, 1 input channel, 32 output
 b_conv1 = bias_variable([32])
 x_image = tf.reshape(x, [-1,28,28,1])
 h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 h_pool1 = max_pool_2x2(h_conv1)
 
 # Second Convolutional Layer
-W_conv2 = weight_variable([5, 5, 32, 64])
+W_conv2 = weight_variable([5, 5, 32, 64])  # 5x5 patch, 32 input, 64 output
 b_conv2 = bias_variable([64])
 
 h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 h_pool2 = max_pool_2x2(h_conv2)
 
 # Densely Connected Layer
-W_fc1 = weight_variable([7 * 7 * 64, 1024])
+W_fc1 = weight_variable([7 * 7 * 64, 1024]) #size is 7x7 with 64 inputs
 b_fc1 = bias_variable([1024])
 
 h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
