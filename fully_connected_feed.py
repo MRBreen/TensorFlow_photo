@@ -173,7 +173,7 @@ def run_training():
       duration = time.time() - start_time
 
       # Write the summaries and print an overview fairly often.
-      if step % 100 == 0:
+      if step % 200 == 0:
         # Print status to stdout.
         print('Step %d: loss = %.2f (%.3f sec)' % (step, loss_value, duration))
         # Update the events file.
@@ -226,7 +226,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--max_steps',
       type=int,
-      default=2000,
+      default=100000,   #changed from 2000
       help='Number of steps to run trainer.'
   )
   parser.add_argument(
