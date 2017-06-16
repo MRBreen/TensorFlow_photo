@@ -207,12 +207,24 @@ def run_training():
                 labels_placeholder,
                 data_sets.test)
 
+        # Visualize the Status
+        # In order to emit the events files used by TensorBoard, all of the summaries (in this case, only one) are collected into a single Tensor during the graph building phase.
+
+        summary = tf.summary.merge_all()
+        # And then after the session is created, a tf.summary.FileWriter may be instantiated to write the events files, which contain both the graph itself and the values of the summaries.
+
+        summary_writer = tf.summary.FileWriter(FLAGS.train_dir, sess.graph)
+        # Lastly, the events file will be updated with new summary values every time the summary is evaluated and the output passed to the writer's add_summary() function.
+
+        summary_str = sess.run(summary, feed_dict=feed_dict)
+        summary_writer.add_summary(summary_str, step)
 
 def main(_):
   if tf.gfile.Exists(FLAGS.log_dir):
     tf.gfile.DeleteRecursively(FLAGS.log_dir)
   tf.gfile.MakeDirs(FLAGS.log_dir)
   run_training()
+  print(FLAGS)
 
 
 if __name__ == '__main__':
@@ -226,7 +238,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--max_steps',
       type=int,
-      default=100000,   #changed from 2000
+      default=2000,   #changed from 2000
       help='Number of steps to run trainer.'
   )
   parser.add_argument(
